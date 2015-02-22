@@ -1,0 +1,81 @@
+---
+title       : Farenheit to Celsius Converter
+subtitle    : Devolping Data Products Project
+author      : Monika Chauhan
+job         : Study-Study
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap,shiny}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## Introduction   
+
+The FtoC shinyApp accepts temperature in Farenheit from the user and returns equivalent Celsius degress.   
+
+The default temperature is 32F.  
+
+The user can either enter the temperature manually or use the step up or down by 5degrees.
+
+
+
+
+
+
+--- .class #id 
+
+## ui.R for the User interaction
+```{r cache=FALSE}
+library(shiny)
+shinyUI(pageWithSidebar(
+  # Application title
+  headerPanel("Farenheit to Celsius Prediction"),
+  
+  sidebarPanel(
+  numericInput('faren', 'Farenheit Degrees F',32,min=0,max=500,step=5),
+  submitButton('Submit')
+    ),
+  
+mainPanel(
+  h3('Equivalent Degree Celsius'),
+  h4('You entered'),
+  verbatimTextOutput("inputValue"),
+  h4('which predicts'),
+  verbatimTextOutput("prediction")
+  )
+  
+  
+ ))
+```
+
+---
+
+## server.R for server side processing
+```{r}
+library(shiny)
+f2c<-function(faren) (faren-32)*5/9
+
+shinyServer(
+  function(input,output){
+    output$inputValue<- renderPrint({input$faren})
+    output$prediction<- renderPrint({f2c(input$faren)})
+    
+    
+  }
+  )
+```
+
+---
+
+## Running FtoC
+```{r}
+faren<-32 #default value, otherwise it assumes the value inputted by the user
+faren<-(faren-32)*5/9
+faren
+```
+---
+
+
+

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Farenheit to Celsius Converter</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Farenheit to Celsius Converter">
+  <meta name="author" content="Monika Chauhan">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Farenheit to Celsius Converter</h1>
+    <h2>Devolping Data Products Project</h2>
+    <p>Monika Chauhan<br/>Study-Study</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Introduction</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The FtoC shinyApp accepts temperature in Farenheit from the user and returns equivalent Celsius degress.   </p>
+
+<p>The default temperature is 32F.  </p>
+
+<p>The user can either enter the temperature manually or use the step up or down by 5degrees.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>ui.R for the User interaction</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(shiny)
+shinyUI(pageWithSidebar(
+  # Application title
+  headerPanel(&quot;Farenheit to Celsius Prediction&quot;),
+
+  sidebarPanel(
+  numericInput(&#39;faren&#39;, &#39;Farenheit Degrees F&#39;,32,min=0,max=500,step=5),
+  submitButton(&#39;Submit&#39;)
+    ),
+
+mainPanel(
+  h3(&#39;Equivalent Degree Celsius&#39;),
+  h4(&#39;You entered&#39;),
+  verbatimTextOutput(&quot;inputValue&quot;),
+  h4(&#39;which predicts&#39;),
+  verbatimTextOutput(&quot;prediction&quot;)
+  )
+
+
+ ))
+</code></pre>
+
+<p>&lt;!--html_preserve--&gt;<div class="container-fluid"></p>
+
+<div class="row">
+<div class="col-sm-12">
+<h1>Farenheit to Celsius Prediction</h1>
+</div>
+
+<p></div></p>
+
+<div class="row">
+<div class="col-sm-4">
+<form class="well">
+<div class="form-group shiny-input-container">
+<label for="faren">Farenheit Degrees F</label>
+<input id="faren" type="number" class="form-control" value="32" min="0" max="500" step="5"/>
+</div>
+
+<div>
+<button type="submit" class="btn btn-primary">Submit</button>
+</div>
+
+<p></form>
+</div></p>
+
+<div class="col-sm-8">
+<h3>Equivalent Degree Celsius</h3>
+<h4>You entered</h4>
+<pre id="inputValue" class="shiny-text-output"></pre>
+<h4>which predicts</h4>
+<pre id="prediction" class="shiny-text-output"></pre>
+</div>
+
+<p></div>
+</div>&lt;!--/html_preserve--&gt;</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>server.R for server side processing</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(shiny)
+f2c&lt;-function(faren) (faren-32)*5/9
+
+shinyServer(
+  function(input,output){
+    output$inputValue&lt;- renderPrint({input$faren})
+    output$prediction&lt;- renderPrint({f2c(input$faren)})
+
+
+  }
+  )
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Running FtoC</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">faren&lt;-32 #default value, otherwise it assumes the value inputted by the user
+faren&lt;-(faren-32)*5/9
+faren
+</code></pre>
+
+<pre><code>## [1] 0
+</code></pre>
+
+<hr>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Introduction'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='ui.R for the User interaction'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='server.R for server side processing'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Running FtoC'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
